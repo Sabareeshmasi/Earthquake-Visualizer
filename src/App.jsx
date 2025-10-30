@@ -90,34 +90,8 @@ function App() {
           <div className="text-center">
             <h1 className="text-3xl font-extrabold tracking-tight">
               <span className="mr-2">🌍</span>
-              3D Earthquake Visualizer
+              Earthquake Visualizer
             </h1>
-            <div className="mt-4 flex items-center justify-center gap-4">
-              <button
-                onClick={() => fetchEarthquakes()}
-                disabled={loading}
-                className="bg-white text-blue-700 px-5 py-2 rounded-xl hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm font-semibold shadow"
-              >
-                <span className={loading ? 'animate-spin' : ''}>🔄</span>
-                <span className="ml-2">Refresh Data</span>
-              </button>
-              <button
-                onClick={() => setAutoRotate(!autoRotate)}
-                className={`px-5 py-2 rounded-xl transition-all text-sm font-semibold shadow ${
-                  autoRotate ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white text-blue-700 hover:bg-blue-50'
-                }`}
-              >
-                ⏯️ Auto Rotate {autoRotate ? 'OFF' : 'OFF'}
-              </button>
-              <button
-                onClick={() => setEnableClustering(!enableClustering)}
-                className={`px-5 py-2 rounded-xl transition-all text-sm font-semibold shadow ${
-                  enableClustering ? 'bg-purple-500 hover:bg-purple-600 text-white' : 'bg-white text-blue-700 hover:bg-blue-50'
-                }`}
-              >
-                🔗 Clustering {enableClustering ? 'ON' : 'OFF'}
-              </button>
-            </div>
           </div>
         </div>
       </header>
