@@ -41,8 +41,8 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
 
   return (
     <div className="relative bg-white rounded-lg shadow-lg border border-gray-200 w-full">
-      <div className="p-2 sm:p-3">
-        <h3 className="text-xs font-semibold text-gray-700 mb-2">🔍 Search Location</h3>
+      <div className="p-2">
+        <h3 className="text-[11px] font-semibold text-gray-700 mb-2">🔍 Search Location</h3>
         <div className="relative">
           <input
             type="text"
@@ -53,7 +53,7 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
               setShowResults(true)
             }}
             onFocus={() => setShowResults(true)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-2.5 py-1.5 border border-gray-300 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {showResults && searchResults.length > 0 && (
             <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-44 sm:max-h-60 overflow-y-auto">
@@ -61,13 +61,13 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
                 <button
                   key={result.id}
                   onClick={() => handleSelect(result)}
-                  className="w-full text-left px-3 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 text-xs sm:text-sm"
-                  style={{ minHeight: 40 }}
+                  className="w-full text-left px-3 py-2 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 text-[11px]"
+                  style={{ minHeight: 34 }}
                 >
                   <div className="flex justify-between items-center gap-2">
                     <div>
-                      <p className="text-xs sm:text-sm font-medium text-gray-900">{result.place}</p>
-                      <p className="text-[10px] sm:text-xs text-gray-500">
+                      <p className="text-[11px] font-medium text-gray-900">{result.place}</p>
+                      <p className="text-[10px] text-gray-500">
                         {new Date(result.time).toLocaleString()}
                       </p>
                     </div>
@@ -89,7 +89,7 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
           )}
         </div>
         {searchQuery && searchResults.length === 0 && (
-          <p className="text-xs text-gray-500 mt-2">No earthquakes found</p>
+          <p className="text-[11px] text-gray-500 mt-2">No earthquakes found</p>
         )}
       </div>
     </div>

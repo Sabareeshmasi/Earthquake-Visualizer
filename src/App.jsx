@@ -212,7 +212,8 @@ function App() {
               enableClustering={enableClustering}
             />
           </div>
-          <div className="absolute top-8 left-8 z-[1001] flex flex-col gap-3">
+          {/* Controls top-left */}
+          <div className="absolute top-8 left-8 z-[1001] flex flex-col gap-2 w-[260px] max-w-xs">
             <SearchLocation 
               earthquakes={earthquakes}
               onFlyTo={handleFlyTo}
@@ -223,9 +224,34 @@ function App() {
               onTimeRangeChange={handleTimeRangeChange}
               loading={loading}
             />
+            <div className="flex gap-2">
+              <button
+                onClick={() => fetchEarthquakes()}
+                disabled={loading}
+                className="bg-white text-blue-600 px-3 py-1.5 rounded-md hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-xs font-semibold shadow-sm"
+              >
+                🔄 Refresh Data
+              </button>
+              <button
+                onClick={() => setAutoRotate(!autoRotate)}
+                className={`px-3 py-1.5 rounded-md transition-all text-xs font-semibold shadow-sm ${
+                  autoRotate ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                ⏯️ Auto Rotate {autoRotate ? 'ON' : 'OFF'}
+              </button>
+              <button
+                onClick={() => setEnableClustering(!enableClustering)}
+                className={`px-3 py-1.5 rounded-md transition-all text-xs font-semibold shadow-sm ${
+                  enableClustering ? 'bg-purple-500 hover:bg-purple-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
+                }`}
+              >
+                🔗 Clustering {enableClustering ? 'ON' : 'OFF'}
+              </button>
+            </div>
             <button
               onClick={() => setShowEducationalInfo(true)}
-              className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-700 transition-all flex items-center gap-2 text-sm font-semibold w-full justify-center"
+              className="bg-purple-600 text-white px-3 py-2 rounded-lg shadow-lg hover:bg-purple-700 transition-all text-xs font-semibold w-full justify-center"
             >
               📚 Learn About Earthquakes
             </button>

@@ -12,8 +12,8 @@ function TimeRangeSelector({ timeRange, onTimeRangeChange, loading }) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-2 sm:p-3 border border-gray-200 w-full">
-      <h3 className="text-xs font-semibold text-gray-700 mb-2">Time Range</h3>
+    <div className="bg-white rounded-lg shadow-lg p-2 border border-gray-200 w-full">
+      <h3 className="text-[11px] font-semibold text-gray-700 mb-2">Time Range</h3>
       <div className="flex flex-wrap gap-2 w-full">
         {timeOptions.map((option) => {
           const isActive = timeRange === option.value
@@ -22,12 +22,12 @@ function TimeRangeSelector({ timeRange, onTimeRangeChange, loading }) {
               key={option.value}
               onClick={() => onTimeRangeChange(option.value, getApiUrl(option.value))}
               disabled={loading}
-              className={`px-3 py-2 rounded-md min-w-[42%] sm:min-w-[100px] mb-1 text-xs font-medium transition-all flex items-center gap-1 justify-center ${
+              className={`px-2.5 py-1.5 rounded-md min-w-[46%] sm:min-w-[92px] mb-1 text-[11px] font-medium transition-all flex items-center gap-1 justify-center ${
                 isActive
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
-              style={{ minHeight: 40 }}
+              style={{ minHeight: 32 }}
             >
               <span>{option.icon}</span>
               <span>{option.label}</span>
