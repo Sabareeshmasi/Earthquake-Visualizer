@@ -1,7 +1,7 @@
 function Legend({ count = 0 }) {
   return (
     <div 
-      className="absolute bottom-6 left-6 bg-white rounded-lg shadow-xl p-4 border border-gray-200 z-[1000]"
+      className="absolute bottom-0 left-0 right-0 sm:bottom-6 sm:left-6 sm:right-auto mx-2 sm:mx-0 bg-white rounded-lg shadow-xl p-3 sm:p-4 border border-gray-200 z-[1000] w-full sm:w-auto max-w-full sm:max-w-xs overflow-auto"
       style={{ 
         backdropFilter: 'blur(10px)',
         backgroundColor: 'rgba(255, 255, 255, 0.95)'

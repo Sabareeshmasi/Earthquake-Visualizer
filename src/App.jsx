@@ -72,14 +72,14 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-gray-900">
+    <div className="min-h-screen w-screen flex flex-col overflow-hidden bg-gray-900">
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 shadow-md flex-shrink-0">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-center mb-3">
+        <div className="container max-w-full mx-auto px-2 sm:px-4">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 md:mb-3">
             🌍 Earthquake Visualizer
           </h1>
-          <div className="flex justify-center gap-3 flex-wrap">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 flex-wrap items-stretch sm:items-center">
             <button
               onClick={() => fetchEarthquakes()}
               disabled={loading}
@@ -141,7 +141,7 @@ function App() {
 
       {/* Globe Container */}
       <div 
-        className="flex-1 relative min-h-0 w-full"
+        className="flex-1 relative min-h-0 w-full overflow-hidden"
         onClick={handleGlobeClick}
       >
         <div className="w-full h-full">
@@ -153,9 +153,8 @@ function App() {
             enableClustering={enableClustering}
           />
         </div>
-        
-        {/* Control Panels - Left Side */}
-        <div className="absolute top-6 left-6 z-[1000] space-y-3 max-w-xs">
+        {/* Control Panels */}
+        <div className="absolute top-2 left-2 sm:top-6 sm:left-6 z-[1000] space-y-2 sm:space-y-3 max-w-[95vw] w-[96vw] sm:w-auto md:max-w-xs p-1 sm:p-0">
           <SearchLocation 
             earthquakes={earthquakes}
             onFlyTo={handleFlyTo}
@@ -173,18 +172,22 @@ function App() {
             📚 Learn About Earthquakes
           </button>
         </div>
-        
-        {/* Legend - Bottom Right */}
+
+        {/* Legend - Bottom Right, reposition for very small screens */}
         {!loading && earthquakes.length > 0 && (
-          <Legend count={earthquakes.length} />
+          <div className="absolute bottom-2 right-2 sm:bottom-6 sm:right-6 max-w-[95vw] w-[90vw] sm:w-auto md:max-w-sm">
+            <Legend count={earthquakes.length} />
+          </div>
         )}
-        
-        {/* Info Card - Top Right */}
+
+        {/* Info Card - Top Right, make it fluid for mobile */}
         {selectedQuake && (
-          <InfoCard 
-            earthquake={selectedQuake}
-            onClose={() => setSelectedQuake(null)}
-          />
+          <div className="absolute top-2 right-2 sm:top-20 sm:right-6 max-w-[95vw] w-[90vw] sm:w-auto md:max-w-sm">
+            <InfoCard 
+              earthquake={selectedQuake}
+              onClose={() => setSelectedQuake(null)}
+            />
+          </div>
         )}
 
         {/* Educational Features */}

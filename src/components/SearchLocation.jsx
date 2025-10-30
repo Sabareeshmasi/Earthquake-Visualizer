@@ -40,8 +40,8 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
   }
 
   return (
-    <div className="relative bg-white rounded-lg shadow-lg border border-gray-200">
-      <div className="p-3">
+    <div className="relative bg-white rounded-lg shadow-lg border border-gray-200 w-full">
+      <div className="p-2 sm:p-3">
         <h3 className="text-xs font-semibold text-gray-700 mb-2">🔍 Search Location</h3>
         <div className="relative">
           <input
@@ -55,19 +55,19 @@ function SearchLocation({ earthquakes, onFlyTo, onSelectEarthquake }) {
             onFocus={() => setShowResults(true)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          
           {showResults && searchResults.length > 0 && (
-            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto">
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-44 sm:max-h-60 overflow-y-auto">
               {searchResults.map((result) => (
                 <button
                   key={result.id}
                   onClick={() => handleSelect(result)}
-                  className="w-full text-left px-3 py-2 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0"
+                  className="w-full text-left px-3 py-3 hover:bg-blue-50 transition-colors border-b border-gray-100 last:border-b-0 text-xs sm:text-sm"
+                  style={{ minHeight: 40 }}
                 >
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-2">
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{result.place}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs sm:text-sm font-medium text-gray-900">{result.place}</p>
+                      <p className="text-[10px] sm:text-xs text-gray-500">
                         {new Date(result.time).toLocaleString()}
                       </p>
                     </div>
