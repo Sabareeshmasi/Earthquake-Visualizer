@@ -85,31 +85,34 @@ function App() {
   return (
     <div className="min-h-screen w-screen flex flex-col overflow-hidden bg-gray-900">
       {/* Desktop Header */}
-      <header className="hidden md:block bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 shadow-md flex-shrink-0">
+      <header className="hidden md:block bg-gradient-to-r from-blue-600 to-blue-800 text-white py-6 shadow-md flex-shrink-0">
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">🌍 Earthquake Visualizer</h1>
-            <div className="flex items-center gap-3">
+          <div className="text-center">
+            <h1 className="text-3xl font-extrabold tracking-tight">
+              <span className="mr-2">🌍</span>
+              3D Earthquake Visualizer
+            </h1>
+            <div className="mt-4 flex items-center justify-center gap-4">
               <button
                 onClick={() => fetchEarthquakes()}
                 disabled={loading}
-                className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm font-semibold shadow-sm"
+                className="bg-white text-blue-700 px-5 py-2 rounded-xl hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm font-semibold shadow"
               >
                 <span className={loading ? 'animate-spin' : ''}>🔄</span>
-                <span className="ml-1">Refresh Data</span>
+                <span className="ml-2">Refresh Data</span>
               </button>
               <button
                 onClick={() => setAutoRotate(!autoRotate)}
-                className={`px-4 py-2 rounded-md transition-all text-sm font-semibold shadow-sm ${
-                  autoRotate ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
+                className={`px-5 py-2 rounded-xl transition-all text-sm font-semibold shadow ${
+                  autoRotate ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white text-blue-700 hover:bg-blue-50'
                 }`}
               >
-                ⏯️ Auto Rotate {autoRotate ? 'ON' : 'OFF'}
+                ⏯️ Auto Rotate {autoRotate ? 'OFF' : 'OFF'}
               </button>
               <button
                 onClick={() => setEnableClustering(!enableClustering)}
-                className={`px-4 py-2 rounded-md transition-all text-sm font-semibold shadow-sm ${
-                  enableClustering ? 'bg-purple-500 hover:bg-purple-600 text-white' : 'bg-white text-blue-600 hover:bg-blue-50'
+                className={`px-5 py-2 rounded-xl transition-all text-sm font-semibold shadow ${
+                  enableClustering ? 'bg-purple-500 hover:bg-purple-600 text-white' : 'bg-white text-blue-700 hover:bg-blue-50'
                 }`}
               >
                 🔗 Clustering {enableClustering ? 'ON' : 'OFF'}
