@@ -17,6 +17,17 @@ function App() {
   const [targetLocation, setTargetLocation] = useState(null)
   const [enableClustering, setEnableClustering] = useState(false)
   const [showEducationalInfo, setShowEducationalInfo] = useState(false)
+  const [showMobileContent, setShowMobileContent] = useState(false)
+
+  const handleMobileOpen = () => setShowMobileContent(true)
+  const handleMobileClose = () => setShowMobileContent(false)
+
+  // Modified event handler: close mobile drawer for fast interactions
+  const wrapMobileClose = (fn) => (...args) => {
+    fn && fn(...args)
+    // Only auto-close if mobile menu was opened
+    if (window.innerWidth <= 768) setShowMobileContent(false)
+  }
 
   const fetchEarthquakes = async (url = apiUrl) => {
     try {
@@ -73,126 +84,118 @@ function App() {
 
   return (
     <div className="min-h-screen w-screen flex flex-col overflow-hidden bg-gray-900">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 shadow-md flex-shrink-0">
-        <div className="container max-w-full mx-auto px-2 sm:px-4">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 md:mb-3">
-            🌍 Earthquake Visualizer
-          </h1>
-          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 flex-wrap items-stretch sm:items-center">
+      {/* Mobile Top Bar, shown only on mobile */}
+      <div className="block md:hidden w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2 shadow-md">
+        <div className="px-3 w-full">
+          <div className="flex items-center justify-between mb-1">
+            <h1 className="text-lg font-bold">🌍 Earthquake Visualizer</h1>
+            {/* Content Drawer Open Button */}
+            <button onClick={handleMobileOpen} className="rounded-full p-2 ml-2 bg-white bg-opacity-10 text-white flex items-center hover:bg-opacity-20 transition" aria-label="Open content drawer">
+              <span role="img" aria-label="content">🧭</span>
+            </button>
+          </div>
+          <div className="flex items-center gap-2 w-full overflow-x-auto text-xs justify-start">
             <button
-              onClick={() => fetchEarthquakes()}
+              onClick={wrapMobileClose(() => fetchEarthquakes())}
               disabled={loading}
-              className="bg-white text-blue-600 px-5 py-2 rounded-md hover:bg-blue-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm font-semibold shadow-sm"
+              className="bg-white bg-opacity-80 text-blue-600 px-2 py-1.5 rounded hover:bg-blue-50 disabled:opacity-60 transition font-semibold flex items-center gap-1 shadow-sm min-w-[40px]"
             >
-              <span className={loading ? 'animate-spin' : ''}>🔄</span>
-              {loading ? 'Loading...' : 'Refresh Data'}
+              🔄 Refresh
             </button>
             <button
-              onClick={() => setAutoRotate(!autoRotate)}
-              className={`px-5 py-2 rounded-md transition-all flex items-center gap-2 text-sm font-semibold shadow-sm ${
-                autoRotate
-                  ? 'bg-green-500 hover:bg-green-600 text-white'
-                  : 'bg-white text-blue-600 hover:bg-blue-50'
-              }`}
+              onClick={wrapMobileClose(() => setAutoRotate(!autoRotate))}
+              className={`px-2 py-1.5 rounded transition flex items-center gap-1 font-semibold shadow-sm min-w-[40px] text-xs
+                ${autoRotate ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-white bg-opacity-80 text-blue-600 hover:bg-blue-50'}
+              `}
             >
-              <span>⏯️</span>
-              Auto Rotate {autoRotate ? 'ON' : 'OFF'}
+              ⏯️ Auto Rotate {autoRotate ? 'ON' : 'OFF'}
             </button>
             <button
-              onClick={() => setEnableClustering(!enableClustering)}
-              className={`px-5 py-2 rounded-md transition-all flex items-center gap-2 text-sm font-semibold shadow-sm ${
-                enableClustering
-                  ? 'bg-purple-500 hover:bg-purple-600 text-white'
-                  : 'bg-white text-blue-600 hover:bg-blue-50'
-              }`}
+              onClick={wrapMobileClose(() => setEnableClustering(!enableClustering))}
+              className={`px-2 py-1.5 rounded transition flex items-center gap-1 font-semibold shadow-sm min-w-[40px] text-xs
+                ${enableClustering ? 'bg-purple-500 hover:bg-purple-600 text-white' : 'bg-white bg-opacity-80 text-blue-600 hover:bg-blue-50'}
+              `}
             >
-              <span>🔗</span>
-              Clustering {enableClustering ? 'ON' : 'OFF'}
+              🔗 Clustering {enableClustering ? 'ON' : 'OFF'}
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Status Messages */}
-      {error && !loading && (
-        <div className="bg-red-50 border-l-4 border-red-500 text-red-700 px-4 py-3 flex-shrink-0">
-          <p className="font-semibold">Error loading data</p>
-          <p className="text-sm">{error}</p>
-        </div>
-      )}
-
-      {!loading && !error && earthquakes.length === 0 && (
-        <div className="bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 px-4 py-3 flex-shrink-0">
-          <p className="font-semibold">No earthquakes found</p>
-          <p className="text-sm">No earthquakes detected in the selected time range.</p>
-        </div>
-      )}
-
-      {/* Loading Indicator */}
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-50">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <p className="text-white font-medium text-lg">Loading Globe & Earthquake Data...</p>
-          </div>
-        </div>
-      )}
-
-      {/* Globe Container */}
-      <div 
-        className="flex-1 relative min-h-0 w-full overflow-hidden"
-        onClick={handleGlobeClick}
+      {/* Mobile content slide-in drawer (collapsible) */}
+      <div
+        className={`fixed left-0 right-0 bottom-0 z-[1100] md:hidden bg-white text-gray-900 rounded-t-xl shadow-2xl transition-transform duration-300 ease-in-out ${showMobileContent ? 'translate-y-0' : 'translate-y-full'} max-h-[90vh] overflow-y-auto`} 
+        style={{ minHeight: showMobileContent ? '52vh' : '0', pointerEvents: showMobileContent ? 'auto' : 'none' }}
       >
-        <div className="w-full h-full">
-          <GlobeView 
-            earthquakes={earthquakes}
-            onPointClick={handlePointClick}
-            autoRotate={autoRotate}
-            targetLocation={targetLocation}
-            enableClustering={enableClustering}
-          />
+        {/* Close bar */}
+        <div className="flex justify-between items-center border-b px-4 py-2">
+          <span className="font-semibold text-base">App Content</span>
+          <button onClick={handleMobileClose} className="text-2xl text-blue-700 bg-blue-100 hover:bg-blue-200 rounded-full px-3 py-0.5 flex items-center" aria-label="Close content">×</button>
         </div>
-        {/* Control Panels */}
-        <div className="absolute top-2 left-2 sm:top-6 sm:left-6 z-[1000] space-y-2 sm:space-y-3 max-w-[95vw] w-[96vw] sm:w-auto md:max-w-xs p-1 sm:p-0">
+        <div className="p-2 pb-8 flex flex-col gap-3">
           <SearchLocation 
             earthquakes={earthquakes}
-            onFlyTo={handleFlyTo}
-            onSelectEarthquake={handleSelectEarthquake}
+            onFlyTo={wrapMobileClose(handleFlyTo)}
+            onSelectEarthquake={wrapMobileClose(handleSelectEarthquake)}
           />
           <TimeRangeSelector 
             timeRange={timeRange}
-            onTimeRangeChange={handleTimeRangeChange}
+            onTimeRangeChange={wrapMobileClose(handleTimeRangeChange)}
             loading={loading}
           />
           <button
-            onClick={() => setShowEducationalInfo(true)}
+            onClick={wrapMobileClose(() => setShowEducationalInfo(true))}
             className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-700 transition-all flex items-center gap-2 text-sm font-semibold w-full justify-center"
           >
             📚 Learn About Earthquakes
           </button>
         </div>
+        {/* App Legend at the bottom inside drawer */}
+        <div className="border-t p-2 pb-5 flex justify-center">
+          <Legend count={earthquakes.length} />
+        </div>
+      </div>
 
-        {/* Legend - Bottom Right, reposition for very small screens */}
-        {!loading && earthquakes.length > 0 && (
-          <div className="absolute bottom-2 right-2 sm:bottom-6 sm:right-6 max-w-[95vw] w-[90vw] sm:w-auto md:max-w-sm">
-            <Legend count={earthquakes.length} />
+      {/* Main App Experience (always visible, but styled for desktop) */}
+      <div className="hidden md:flex flex-1 min-h-0 w-full">
+        <aside className="hidden md:flex flex-col w-64 bg-transparent py-6 px-2">
+          <Legend count={earthquakes.length} />
+        </aside>
+        <main className="flex-1 relative min-h-0 w-full" onClick={handleGlobeClick}>
+          <div className="absolute top-8 right-8 z-[1002] max-w-[95vw] md:max-w-sm">
+            {selectedQuake && <InfoCard earthquake={selectedQuake} onClose={() => setSelectedQuake(null)} />}
           </div>
-        )}
-
-        {/* Info Card - Top Right, make it fluid for mobile */}
-        {selectedQuake && (
-          <div className="absolute top-2 right-2 sm:top-20 sm:right-6 max-w-[95vw] w-[90vw] sm:w-auto md:max-w-sm">
-            <InfoCard 
-              earthquake={selectedQuake}
-              onClose={() => setSelectedQuake(null)}
+          <div className="w-full h-full">
+            <GlobeView 
+              earthquakes={earthquakes}
+              onPointClick={handlePointClick}
+              autoRotate={autoRotate}
+              targetLocation={targetLocation}
+              enableClustering={enableClustering}
             />
           </div>
-        )}
-
-        {/* Educational Features */}
-        <EducationalFeatures showInfo={showEducationalInfo} onClose={() => setShowEducationalInfo(false)} />
+          <div className="absolute top-8 left-8 z-[1001] flex flex-col gap-3">
+            <SearchLocation 
+              earthquakes={earthquakes}
+              onFlyTo={handleFlyTo}
+              onSelectEarthquake={handleSelectEarthquake}
+            />
+            <TimeRangeSelector 
+              timeRange={timeRange}
+              onTimeRangeChange={handleTimeRangeChange}
+              loading={loading}
+            />
+            <button
+              onClick={() => setShowEducationalInfo(true)}
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-purple-700 transition-all flex items-center gap-2 text-sm font-semibold w-full justify-center"
+            >
+              📚 Learn About Earthquakes
+            </button>
+          </div>
+        </main>
       </div>
+      {/* Educational Features slides over everything (mobile + desktop) */}
+      <EducationalFeatures showInfo={showEducationalInfo} onClose={handleMobileClose} />
     </div>
   )
 }
