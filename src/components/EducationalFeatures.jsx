@@ -128,10 +128,14 @@ function EducationalFeatures({ showInfo, onClose }) {
             <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white p-2 sm:p-4 flex justify-between items-center text-base sm:text-2xl">
               <h2 className="font-bold">Educational Resources</h2>
               <button
-                onClick={onClose}
-                className="text-white hover:text-gray-200 text-2xl leading-none rounded w-8 h-8 flex items-center justify-center"
-                aria-label="Close"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onClose()
+                }}
+                className="text-white hover:text-gray-200 text-2xl leading-none rounded-full w-8 h-8 flex items-center justify-center bg-white bg-opacity-10 hover:bg-opacity-20 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white z-[2100] pointer-events-auto"
+                aria-label="Close Educational Resources"
                 tabIndex={0}
+                type="button"
               >
                 ×
               </button>

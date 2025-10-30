@@ -259,7 +259,7 @@ function App() {
         </main>
       </div>
       {/* Educational Features slides over everything (mobile + desktop) */}
-      <EducationalFeatures showInfo={showEducationalInfo} onClose={handleMobileClose} />
+      <EducationalFeatures showInfo={showEducationalInfo} onClose={() => setShowEducationalInfo(false)} />
     </div>
   )
 }
